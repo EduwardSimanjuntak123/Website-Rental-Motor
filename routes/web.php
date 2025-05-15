@@ -14,6 +14,7 @@ use App\Http\Controllers\TitikLokasiController;
 use App\Http\Controllers\PerpanjanganSewaController;
 use App\Http\Middleware\CheckAuth;
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Controllers\OtpController;
 
 // Halaman utama
 Route::get('/', function () {
@@ -26,6 +27,11 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 });
 
+
+Route::get('/otp', [OtpController::class, 'showOtpForm'])->name('otp.form');
+Route::post('/otp/request', [OtpController::class, 'requestResetOtp'])->name('otp.request');
+Route::post('/otp/verify', [OtpController::class, 'verifyOtp'])->name('otp.verify');
+Route::post('/otp/reset', [OtpController::class, 'updatePassword'])->name('otp.reset');
 // Grup route untuk user yang sudah login
 Route::middleware([CheckAuth::class])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -124,8 +130,23 @@ Route::middleware([CheckAuth::class])->group(function () {
             ->name('vendor.rejectExtension');
 
 
+           // Menampilkan form OTP request
+Route::get('/vendor/request-otp', [OtpController::class, 'showOtpForm'])->name('vendor.otp.form');
 
+// Mengirim permintaan OTP ke email
+Route::post('/vendor/request-otp', [OtpController::class, 'requestResetOtp'])->name('vendor.otp.request');
 
+// Verifikasi OTP yang dikirim ke email
+Route::post('/vendor/verify-otp', [OtpController::class, 'verifyOtp'])->name('vendor.otp.verify');
+
+// Reset atau update password setelah OTP diverifikasi
+Route::post('/vendor/reset-password', [OtpController::class, 'updatePassword'])->name('vendor.password.update');
+   
+// Tampilkan form OTP verify
+Route::get('/vendor/verify-otp', [OtpController::class, 'showVerifyOtpForm'])->name('vendor.otp.verify.form');
+
+// Tampilkan form reset password
+Route::get('/vendor/reset-password', [OtpController::class, 'showResetPasswordForm'])->name('vendor.password.form');
     });
 
 });

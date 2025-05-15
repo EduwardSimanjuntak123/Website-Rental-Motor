@@ -38,7 +38,7 @@
     <!-- Sidebar -->
     <aside class="w-64 bg-blue-600 text-white min-h-screen p-6 space-y-6">
         {{-- Logo --}}
-        <a href="{{ route('vendor.dashboard') }}"  class="block">
+        <a href="{{ route('vendor.dashboard') }}" class="block">
             <img src="{{ asset('logo1.png') }}" alt="Logo Rental Motor" class="h-12 w-auto mx-auto" />
         </a>
         <nav>
@@ -86,7 +86,7 @@
                     <li>
                         <a href="{{ route('admin.nonaktif', ['id' => $userId]) }}"
                             class="block px-4 py-2 rounded hover:bg-white hover:text-blue-600 {{ request()->routeIs('admin.nonaktif') ? 'bg-white text-blue-600' : '' }}">
-                            Nonaktifkan Akun Vendor
+                            Kelola Akun Vendor
                         </a>
                     </li>
                     <li>
@@ -156,18 +156,22 @@
     <script>
         function confirmLogout() {
             Swal.fire({
-                title: 'Apakah Anda yakin ingin keluar?',
+                title: 'Keluar dari Aplikasi?',
+                text: 'Anda akan keluar dari sesi login. Lanjutkan?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Iya',
-                cancelButtonText: 'Batal'
+                confirmButtonText: '<i class="fas fa-sign-out-alt"></i> Ya, Keluar',
+                cancelButtonText: 'Batal',
+                reverseButtons: true,
+                focusCancel: true
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById('logout-form').submit();
                 }
             });
+
         }
     </script>
 </body>
